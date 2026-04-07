@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noodp">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AQRM — Advanced Quantitative Research Methods</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Source+Sans+3:wght@300;400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:      #1c2b3a;
+  --navy-mid:  #2c3e52;
+  --slate:     #4a5568;
+  --slate-lt:  #718096;
+  --paper:     #fafaf8;
+  --paper-dk:  #f0ede8;
+  --rule:      #ddd8d0;
+  --red:       #9b2335;
+  --red-lt:    #b5374a;
+  --link:      #1a4f7a;
+  --shadow-sm: 0 1px 6px rgba(28,43,58,0.08);
+  --shadow:    0 4px 20px rgba(28,43,58,0.10);
+  --shadow-lg: 0 8px 36px rgba(28,43,58,0.13);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 18px; }
+body {
+  font-family: 'Source Sans 3', sans-serif;
+  background: var(--paper);
+  color: var(--navy);
+  line-height: 1.75;
+}
+
+/* NAV */
+nav {
+  position: sticky; top: 0; z-index: 200;
+  background: var(--navy);
+  padding: 0 3rem;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 54px;
+  border-bottom: 2px solid var(--red);
+}
+.nav-brand {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.9rem; font-weight: 500;
+  color: rgba(250,250,248,0.85);
+  letter-spacing: 0.12em; text-transform: uppercase;
+  text-decoration: none;
+}
+.nav-brand strong { color: #fff; }
+.nav-links { display: flex; }
+.nav-links a {
+  font-size: 0.75rem; font-weight: 500;
+  letter-spacing: 0.07em; text-transform: uppercase;
+  color: rgba(250,250,248,0.6);
+  text-decoration: none;
+  padding: 0 0.9rem;
+  height: 54px; display: flex; align-items: center;
+  border-bottom: 2px solid transparent; margin-bottom: -2px;
+  transition: color .2s, border-color .2s;
+}
+.nav-links a:hover { color: #fff; border-color: rgba(250,250,248,0.45); }
+
+/* MASTHEAD */
+.masthead {
+  background: var(--navy); color: #fff;
+  padding: 4.5rem 3rem 3.5rem;
+}
+.masthead-inner { max-width: 880px; margin: 0 auto; }
+.masthead-kicker {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: rgba(250,250,248,0.4);
+  margin-bottom: 1rem;
+}
+.masthead h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4.5vw, 2.9rem);
+  font-weight: 600; line-height: 1.2;
+  letter-spacing: -0.01em; color: #fff;
+  margin-bottom: 1.2rem;
+}
+.masthead h1 em { font-style: italic; font-weight: 400; color: rgba(250,250,248,0.72); }
+.masthead-desc {
+  font-size: 1rem; color: rgba(250,250,248,0.62);
+  max-width: 580px; line-height: 1.82; margin-bottom: 2.2rem;
+}
+.masthead-meta {
+  display: flex; gap: 2.5rem; flex-wrap: wrap;
+  padding-top: 1.8rem; border-top: 1px solid rgba(255,255,255,0.1);
+}
+.meta-item { display: flex; flex-direction: column; gap: 0.2rem; }
+.meta-label {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: rgba(250,250,248,0.32);
+}
+.meta-value { font-size: 0.88rem; color: rgba(250,250,248,0.82); font-weight: 500; }
+.meta-value a {
+  color: rgba(250,250,248,0.82); text-decoration: none;
+  border-bottom: 1px solid rgba(250,250,248,0.22);
+  transition: border-color .2s;
+}
+.meta-value a:hover { border-color: rgba(250,250,248,0.65); }
+
+/* CONTAINER */
+.container { max-width: 880px; margin: 0 auto; padding: 0 3rem 5rem; }
+
+/* SECTION TITLES */
+.section-block { margin-top: 3.8rem; }
+.section-block:first-child { margin-top: 3rem; }
+.section-title {
+  display: flex; align-items: baseline; gap: 1rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 2px solid var(--navy);
+  margin-bottom: 1.8rem;
+}
+.section-title h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem; font-weight: 600;
+  color: var(--navy); letter-spacing: -0.01em;
+}
+.section-label {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--red); border: 1px solid var(--red);
+  padding: 0.12rem 0.5rem; border-radius: 2px;
+}
+
+/* OVERVIEW */
+.overview-text { font-size: 0.96rem; color: var(--slate); line-height: 1.85; margin-bottom: 0.9rem; }
+
+/* OBJECTIVES */
+.objectives {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 1px; background: var(--rule);
+  border: 1px solid var(--rule); border-radius: 3px; overflow: hidden;
+  margin-top: 1.5rem;
+}
+.obj-card { background: #fff; padding: 1.3rem 1.5rem; }
+.obj-num {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.6rem; letter-spacing: 0.1em; color: var(--red);
+  font-weight: 500; margin-bottom: 0.45rem; display: block;
+}
+.obj-card p { font-size: 0.86rem; color: var(--slate); line-height: 1.65; }
+
+/* SYLLABUS CARD */
+.syllabus-card {
+  background: var(--navy); border-radius: 4px;
+  padding: 2rem 2.4rem;
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 2rem; flex-wrap: wrap;
+}
+.syllabus-card-text h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem; color: #fff; margin-bottom: 0.35rem;
+}
+.syllabus-card-text p { font-size: 0.875rem; color: rgba(250,250,248,0.58); max-width: 480px; line-height: 1.65; }
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: var(--red); color: #fff;
+  font-size: 0.78rem; font-weight: 600;
+  letter-spacing: 0.07em; text-transform: uppercase;
+  padding: 0.62rem 1.3rem; border-radius: 2px;
+  text-decoration: none; white-space: nowrap; flex-shrink: 0;
+  transition: background .2s;
+}
+.btn-primary:hover { background: var(--red-lt); }
+
+/* WEEK ACCORDION */
+.week-list { display: flex; flex-direction: column; }
+.week-item { border: 1px solid var(--rule); border-top: none; background: #fff; }
+.week-item:first-child { border-top: 1px solid var(--rule); border-radius: 3px 3px 0 0; }
+.week-item:last-child { border-radius: 0 0 3px 3px; }
+.week-trigger {
+  display: flex; align-items: stretch; cursor: pointer;
+  user-select: none; width: 100%; text-align: left; background: none; border: none; padding: 0;
+}
+.week-marker {
+  background: var(--navy); color: rgba(250,250,248,0.5);
+  min-width: 76px; padding: 1rem 1.1rem;
+  flex-shrink: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; align-self: stretch;
+  transition: background .2s;
+}
+.week-item.open .week-marker { background: var(--red); }
+.week-marker .wk-label {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.55rem; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 0.2rem;
+}
+.week-marker .wk-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem; line-height: 1; color: #fff;
+}
+.week-info { flex: 1; padding: 1rem 1.4rem; }
+.week-title { font-family: 'Playfair Display', serif; font-size: 1.02rem; font-weight: 600; color: var(--navy); margin-bottom: 0.18rem; }
+.week-subtitle { font-size: 0.78rem; color: var(--slate-lt); }
+.week-chevron { padding: 1rem 1.4rem; flex-shrink: 0; color: var(--slate-lt); font-size: 0.75rem; transition: transform .25s; }
+.week-item.open .week-chevron { transform: rotate(180deg); }
+.week-body {
+  display: none; padding: 1rem 1.4rem 1.4rem;
+  border-top: 1px solid var(--paper-dk); background: var(--paper);
+}
+.week-item.open .week-body { display: block; }
+
+/* RESOURCE SECTION */
+.res-section {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--slate-lt);
+  margin: 1.1rem 0 0.55rem;
+  padding-bottom: 0.28rem; border-bottom: 1px solid var(--rule);
+}
+.res-section:first-child { margin-top: 0; }
+.res-list { display: flex; flex-direction: column; gap: 0.38rem; }
+.res-row {
+  display: flex; align-items: center; gap: 0.9rem;
+  padding: 0.65rem 0.9rem;
+  background: #fff; border: 1px solid var(--rule); border-radius: 2px;
+  transition: border-color .15s, box-shadow .15s;
+}
+.res-row:hover { border-color: #aab4c0; box-shadow: var(--shadow-sm); }
+.res-type {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.58rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0.18rem 0.5rem; border-radius: 2px; flex-shrink: 0; white-space: nowrap;
+}
+.type-video  { background: #fce8e8; color: #7d1a1a; }
+.type-pdf    { background: #fef3e2; color: #7a4a00; }
+.type-slides { background: #e8eef8; color: #1a3a6b; }
+.type-doc    { background: #e8f3ea; color: #1a5c2a; }
+.res-info { flex: 1; min-width: 0; }
+.res-name { font-size: 0.88rem; font-weight: 500; color: var(--navy); display: block; }
+.res-desc { font-size: 0.76rem; color: var(--slate-lt); margin-top: 0.04rem; display: block; }
+.drive-note { font-size: 0.7rem; color: var(--slate-lt); font-style: italic; flex-shrink: 0; white-space: nowrap; }
+.btn-dl {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  background: var(--navy); color: #fff;
+  font-size: 0.68rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase;
+  padding: 0.32rem 0.8rem; border-radius: 2px;
+  text-decoration: none; flex-shrink: 0; white-space: nowrap;
+  transition: background .15s;
+}
+.btn-dl:hover { background: var(--red); }
+
+/* TOPIC TAGS */
+.topic-tags { display: flex; flex-wrap: wrap; gap: 0.38rem; margin-top: 0.7rem; }
+.tag {
+  font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em;
+  color: var(--slate); background: var(--paper-dk);
+  border: 1px solid var(--rule); padding: 0.18rem 0.58rem; border-radius: 2px;
+}
+
+/* PROJECT GRID */
+.project-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(195px, 1fr));
+  gap: 1px; background: var(--rule);
+  border: 1px solid var(--rule); border-radius: 3px; overflow: hidden;
+  margin-top: 1.2rem;
+}
+.project-card {
+  background: #fff; padding: 1.4rem 1.5rem;
+  text-decoration: none; color: var(--navy); display: block;
+  transition: background .15s;
+}
+.project-card:hover { background: var(--paper-dk); }
+.project-card-label {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--red); margin-bottom: 0.45rem; display: block;
+}
+.project-card h3 { font-family: 'Playfair Display', serif; font-size: 0.97rem; font-weight: 600; margin-bottom: 0.38rem; color: var(--navy); }
+.project-card p { font-size: 0.8rem; color: var(--slate); line-height: 1.6; }
+.project-card-arrow { font-size: 0.76rem; color: var(--red); font-weight: 600; margin-top: 0.75rem; display: block; }
+
+/* BAKING */
+.baking-intro { font-size: 0.95rem; color: var(--slate); margin-bottom: 1.3rem; line-height: 1.8; }
+.baking-gallery {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1px; background: var(--rule);
+  border: 1px solid var(--rule); border-radius: 3px; overflow: hidden;
+}
+@media (max-width: 580px) { .baking-gallery { grid-template-columns: repeat(2, 1fr); } }
+.bake-card { background: #fff; overflow: hidden; }
+.bake-img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; }
+.bake-caption { padding: 0.5rem 0.75rem; font-size: 0.74rem; font-style: italic; color: var(--slate-lt); text-align: center; border-top: 1px solid var(--paper-dk); }
+
+/* CONTACT */
+.contact-block {
+  background: #fff; border: 1px solid var(--rule); border-radius: 3px;
+  padding: 1.8rem 2.2rem; display: flex; align-items: flex-start; gap: 2rem; flex-wrap: wrap;
+}
+.contact-initials {
+  width: 52px; height: 52px; background: var(--navy); border-radius: 2px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif; font-size: 1.2rem; color: #fff; flex-shrink: 0;
+}
+.contact-info h3 { font-family: 'Playfair Display', serif; font-size: 1.05rem; margin-bottom: 0.28rem; }
+.contact-info p { font-size: 0.86rem; color: var(--slate); margin-bottom: 0.18rem; }
+.contact-info a { color: var(--link); text-decoration: none; border-bottom: 1px solid var(--rule); transition: color .15s, border-color .15s; }
+.contact-info a:hover { color: var(--red); border-color: var(--red); }
+
+/* FOOTER */
+footer {
+  background: var(--navy); color: rgba(250,250,248,0.32);
+  text-align: center; padding: 1.6rem 2rem;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.72rem; letter-spacing: 0.05em;
+  border-top: 2px solid var(--red); margin-top: 4rem;
+}
+footer a { color: rgba(250,250,248,0.45); text-decoration: none; }
+footer a:hover { color: rgba(250,250,248,0.75); }
+
+@media (max-width: 640px) {
+  nav { padding: 0 1.2rem; }
+  .masthead, .container { padding-left: 1.4rem; padding-right: 1.4rem; }
+  .nav-links a { padding: 0 0.5rem; font-size: 0.68rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="#top"><strong>AQRM</strong></a>
+  <div class="nav-links">
+    <a href="#overview">Overview</a>
+    <a href="#syllabus">Syllabus</a>
+    <a href="#material">Material</a>
+    <a href="#project">Project</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<div class="masthead" id="top">
+  <div class="masthead-inner">
+    <div class="masthead-kicker">Leiden University College &nbsp;·&nbsp; Graduate Methods Seminar</div>
+    <h1>Advanced <em>Quantitative</em> Research Methods</h1>
+    <p class="masthead-desc">Connecting theory, argument, and statistical modelling. From interaction effects and time series to choice models and replication — this course builds the toolkit for rigorous empirical social science.</p>
+    <div class="masthead-meta">
+      <div class="meta-item">
+        <span class="meta-label">Instructor</span>
+        <span class="meta-value">Lucie Zicha</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Email</span>
+        <span class="meta-value"><a href="mailto:l.zicha@luc.leidenuniv.nl">l.zicha@luc.leidenuniv.nl</a></span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Office Hours</span>
+        <span class="meta-value"><a href="https://outlook.office.com/bookwithme/user/6e5e679e8cda4d348370144900546a17%40vuw.leidenuniv.nl/meetingtype/oWF_QPMeH0i-9aqfAWPzog2?anonymous&ismsaljsauthenabled=true" target="_blank" rel="noopener">Book a slot &rarr;</a></span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Software</span>
+        <span class="meta-value">R</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Duration</span>
+        <span class="meta-value">7 Weeks</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="section-block" id="overview">
+    <div class="section-title">
+      <span class="section-label">01</span>
+      <h2>Course Overview</h2>
+    </div>
+    <p class="overview-text">The course introduces students to selected topics in advanced quantitative research with applications in economics, political science, and environmental science. The aim is to deepen students' understanding of how to connect a research question to a logical argument, testable hypotheses, and appropriate statistical models.</p>
+    <p class="overview-text">It also focuses on developing the nuanced ability to assess the limitations of advanced models and techniques when answering substantive research questions. The course builds on basic inferential theory and linear regression, and introduces time series analysis and choice models.</p>
+    <div class="objectives">
+      <div class="obj-card">
+        <span class="obj-num">01 — Theory &amp; Inference</span>
+        <p>Deepen understanding of the connection between logical argument, testable hypotheses, statistical models, and causal inference.</p>
+      </div>
+      <div class="obj-card">
+        <span class="obj-num">02 — Application</span>
+        <p>Apply techniques in substantive research contexts and critically assess their limitations for answering real research questions.</p>
+      </div>
+      <div class="obj-card">
+        <span class="obj-num">03 — Programming</span>
+        <p>Develop statistical programming skills in R, including graphical display of data and more complex data management.</p>
+      </div>
+      <div class="obj-card">
+        <span class="obj-num">04 — Communication</span>
+        <p>Present quantitative findings clearly and rigorously to both academic and non-specialist audiences.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block" id="syllabus">
+    <div class="section-title">
+      <span class="section-label">02</span>
+      <h2>Syllabus</h2>
+    </div>
+    <div class="syllabus-card">
+      <div class="syllabus-card-text">
+        <h3>Course Syllabus</h3>
+        <p>The full syllabus contains the course schedule, required readings, assignment deadlines, grading breakdown, and academic integrity policy.</p>
+      </div>
+      <a class="btn-primary" href="https://docs.google.com/document/d/1WjvqMKIWsPk6qCt-WXh2MamMnVFLNhw86qIyq3DhI44/edit?tab=t.0" target="_blank" rel="noopener">
+        View Syllabus &rarr;
+      </a>
+    </div>
+    <div class="syllabus-card" style="margin-top:1px;">
+      <div class="syllabus-card-text">
+        <h3>Course Reader</h3>
+        <p>The AQRM reader contains all required chapters for the course — interaction effects, time-series models, and categorical dependent variable models.</p>
+      </div>
+      <a class="btn-primary" href="https://drive.google.com/file/d/1oFSZZU-6ba6rZGaFv4wMLfof-bAQ2I29/view?usp=sharing" target="_blank" rel="noopener">
+        Open Reader &rarr;
+      </a>
+    </div>
+  </div>
+
+  <div class="section-block" id="material">
+    <div class="section-title">
+      <span class="section-label">03</span>
+      <h2>Class Material</h2>
+    </div>
+
+    <div class="week-list">
+
+      <div class="week-item open" id="wk1">
+        <div class="week-trigger" onclick="toggleWeek('wk1')">
+          <div class="week-marker">
+            <span class="wk-label">Week</span>
+            <span class="wk-num">1</span>
+          </div>
+          <div class="week-info">
+            <div class="week-title">Basic Linear Regression Review</div>
+            <div class="week-subtitle">Categorical variables &middot; Dummy coding &middot; OLS assumptions</div>
+          </div>
+          <div class="week-chevron">&#9660;</div>
+        </div>
+        <div class="week-body">
+          <div class="res-section">Video Lecture</div>
+          <div class="res-list">
+            <div class="res-row">
+              <span class="res-type type-video">Video</span>
+              <div class="res-info">
+                <span class="res-name">Regression &amp; Categorical Variables</span>
+                <span class="res-desc">Introductory video &mdash; watch before the first session</span>
+              </div>
+              <a class="btn-dl" href="#" onclick="event.stopPropagation(); openVideo('wk1'); return false;">Watch &rarr;</a>
+            </div>
+          </div>
+          <div class="res-section">Documents</div>
+          <div class="res-list">
+            <div class="res-row">
+              <span class="res-type type-pdf">PDF</span>
+              <div class="res-info">
+                <span class="res-name">Week 1 Review Sheet</span>
+                <span class="res-desc">Linear regression basics &mdash; practice problems and model output</span>
+              </div>
+              <a class="btn-dl" href="https://drive.google.com/file/d/1bia4d1MqvCs9zPvwoXNJLB0ZBY80n0Ss/view" target="_blank" rel="noopener" onclick="event.stopPropagation()">View &rarr;</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="week-item open" id="wk23">
+        <div class="week-trigger" onclick="toggleWeek('wk23')">
+          <div class="week-marker">
+            <span class="wk-label">Weeks</span>
+            <span class="wk-num">2&ndash;3</span>
+          </div>
+          <div class="week-info">
+            <div class="week-title">Interaction Effects</div>
+            <div class="week-subtitle">Dummy &times; Dummy &middot; Dummy &times; Continuous &middot; Continuous &times; Continuous &middot; Marginal effects</div>
+          </div>
+          <div class="week-chevron">&#9660;</div>
+        </div>
+        <div class="week-body">
+          <div class="res-section">Video Lecture</div>
+          <div class="res-list">
+            <div class="res-row">
+              <span class="res-type type-video">Video</span>
+              <div class="res-info">
+                <span class="res-name">Introduction to Interaction Effects</span>
+                <span class="res-desc">Short introductory video &mdash; watch this first before the lecture session</span>
+              </div>
+              <a class="btn-dl" href="#" onclick="event.stopPropagation(); openVideo('wk23'); return false;">Watch &rarr;</a>
+            </div>
+          </div>
+
+          <div class="res-section">Topics Covered</div>
+          <div class="topic-tags">
+            <span class="tag">Dummy &times; Dummy</span>
+            <span class="tag">Dummy &times; Continuous</span>
+            <span class="tag">Continuous &times; Continuous</span>
+            <span class="tag">Differential Slopes</span>
+            <span class="tag">Marginal Effects Plots</span>
+            <span class="tag">Visualisation</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="week-item open" id="wk45">
+        <div class="week-trigger" onclick="toggleWeek('wk45')">
+          <div class="week-marker">
+            <span class="wk-label">Weeks</span>
+            <span class="wk-num">4&ndash;5</span>
+          </div>
+          <div class="week-info">
+            <div class="week-title">Introduction to Time-Series Models</div>
+            <div class="week-subtitle">Spurious regression &middot; Trends &middot; Structural breaks &middot; Autocorrelation &middot; Lagged variables</div>
+          </div>
+          <div class="week-chevron">&#9660;</div>
+        </div>
+        <div class="week-body">
+          <div class="res-section">Video Lecture</div>
+          <div class="res-list">
+            <div class="res-row">
+              <span class="res-type type-video">Video</span>
+              <div class="res-info">
+                <span class="res-name">Time-Series Models &mdash; Video Lecture</span>
+                <span class="res-desc">Watch before attending the lecture session</span>
+              </div>
+              <a class="btn-dl" href="#" onclick="event.stopPropagation(); openVideo('wk45'); return false;">Watch &rarr;</a>
+            </div>
+          </div>
+          <div class="res-section">Assignment Materials</div>
+          <div class="res-list">
+            <div class="res-row">
+              <span class="res-type type-doc">Folder</span>
+              <div class="res-info">
+                <span class="res-name">Weeks 4&ndash;5 Assignment Materials</span>
+                <span class="res-desc">Dataset and replication files for the time-series seminar assignment</span>
+              </div>
+              <a class="btn-dl" href="https://drive.google.com/drive/u/2/folders/1aBPX3ZOK96S777zJyYDQpFU2w1AyPruZ" target="_blank" rel="noopener" onclick="event.stopPropagation()">Open &rarr;</a>
+            </div>
+          </div>
+
+          <div class="res-section">Topics Covered</div>
+          <div class="topic-tags">
+            <span class="tag">Spurious Regression</span>
+            <span class="tag">Time Trends</span>
+            <span class="tag">Structural Breaks</span>
+            <span class="tag">Autocorrelation</span>
+            <span class="tag">Lagged Variables</span>
+            <span class="tag">Durbin-Watson Test</span>
+            <span class="tag">Breusch-Godfrey Test</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="week-item open" id="wk67">
+        <div class="week-trigger" onclick="toggleWeek('wk67')">
+          <div class="week-marker">
+            <span class="wk-label">Weeks</span>
+            <span class="wk-num">6&ndash;7</span>
+          </div>
+          <div class="week-info">
+            <div class="week-title">Introduction to Choice Models</div>
+            <div class="week-subtitle">Logit &middot; Probit &middot; Ordered logit &middot; Multinomial logit &middot; Predicted probabilities</div>
+          </div>
+          <div class="week-chevron">&#9660;</div>
+        </div>
+        <div class="week-body">
+          <div class="res-section">Video Lecture</div>
+          <div class="res-list">
+            <div class="res-row">
+              <span class="res-type type-video">Video</span>
+              <div class="res-info">
+                <span class="res-name">Choice Models &mdash; Video Lecture</span>
+                <span class="res-desc">Start with the video, then read the assigned chapter in Doherty</span>
+              </div>
+              <a class="btn-dl" href="#" onclick="event.stopPropagation(); openVideo('wk67'); return false;">Watch &rarr;</a>
+            </div>
+          </div>
+          <div class="res-section">Assignment Materials</div>
+          <div class="res-list">
+            <div class="res-row">
+              <span class="res-type type-doc">Folder</span>
+              <div class="res-info">
+                <span class="res-name">Weeks 6&ndash;7 Assignment Materials</span>
+                <span class="res-desc">Dataset and replication files for the choice models seminar assignment</span>
+              </div>
+              <a class="btn-dl" href="https://drive.google.com/drive/u/2/folders/1loEDPFKzutEuVxTgPd_zfBJRbGCFkpXz" target="_blank" rel="noopener" onclick="event.stopPropagation()">Open &rarr;</a>
+            </div>
+          </div>
+
+          <div class="res-section">Topics Covered</div>
+          <div class="topic-tags">
+            <span class="tag">Binary Logit</span>
+            <span class="tag">Probit</span>
+            <span class="tag">Ordered Logit</span>
+            <span class="tag">Multinomial Logit</span>
+            <span class="tag">Odds Ratios</span>
+            <span class="tag">Predicted Probabilities</span>
+            <span class="tag">First Differences</span>
+            <span class="tag">Proportional Odds</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section-block" id="project">
+    <div class="section-title">
+      <span class="section-label">04</span>
+      <h2>AQRM Replication Project</h2>
+    </div>
+    <p class="overview-text">The centrepiece assessment of the course is a replication project in which student groups reproduce the quantitative findings of a published social science paper and present their work as a research poster. The project develops both technical skills and critical engagement with the published literature.</p>
+    <div class="project-grid">
+      <div class="project-card">
+        <span class="project-card-label">Guidelines</span>
+        <h3>Project Guidelines</h3>
+        <p>Full instructions &mdash; scope, expectations, dataset requirements, and submission format.</p>
+        <span class="project-card-arrow">See Syllabus &rarr;</span>
+      </div>
+      <a class="project-card" href="https://docs.google.com/document/d/16uqwRBCcN4YdDtlWp6ZBRsgjhec-mVswTe6f8k4ZvXI/edit?tab=t.0" target="_blank" rel="noopener">
+        <span class="project-card-label">Poster</span>
+        <h3>Poster Guidelines</h3>
+        <p>How to structure and design your replication poster for the final presentation session.</p>
+        <span class="project-card-arrow">View &rarr;</span>
+      </a>
+
+      <a class="project-card" href="https://sites.google.com/view/aqrm/aqrm-replication-project/peer-evaluation-form" target="_blank" rel="noopener">
+        <span class="project-card-label">Evaluation</span>
+        <h3>Peer Evaluation Form</h3>
+        <p>Form used to evaluate peers' presentations during the poster session.</p>
+        <span class="project-card-arrow">Open &rarr;</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="section-block" id="contact">
+    <div class="section-title">
+      <span class="section-label">05</span>
+      <h2>Contact</h2>
+    </div>
+    <div class="contact-block">
+      <div class="contact-initials">LZ</div>
+      <div class="contact-info">
+        <h3>Lucie Zicha</h3>
+        <p>Leiden University College &nbsp;&middot;&nbsp; Advanced Quantitative Research Methods</p>
+        <p style="margin-top:0.55rem;"><a href="mailto:l.zicha@luc.leidenuniv.nl">l.zicha@luc.leidenuniv.nl</a></p>
+        <p style="margin-top:0.4rem;"><a href="https://outlook.office.com/bookwithme/user/6e5e679e8cda4d348370144900546a17%40vuw.leidenuniv.nl/meetingtype/oWF_QPMeH0i-9aqfAWPzog2?anonymous&ismsaljsauthenabled=true" target="_blank" rel="noopener">Book office hours &rarr;</a></p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer id="main-footer">
+  AQRM &nbsp;&middot;&nbsp; Advanced Quantitative Research Methods &nbsp;&middot;&nbsp; Leiden University College &nbsp;&middot;&nbsp; 2025&ndash;26
+</footer>
+
+<!-- VIDEO SUBPAGES (hidden by default) -->
+<div id="video-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:var(--paper); z-index:500; overflow-y:auto;">
+  <nav style="position:sticky; top:0; z-index:600; background:var(--navy); padding:0 2.5rem; display:flex; align-items:center; justify-content:space-between; height:54px; border-bottom:2px solid var(--red);">
+    <a href="#" style="font-family:'Source Code Pro',monospace; font-size:0.85rem; font-weight:500; color:rgba(250,250,248,0.85); letter-spacing:0.12em; text-transform:uppercase; text-decoration:none;"><strong>AQRM</strong></a>
+    <a href="#" onclick="closeVideo(); return false;" style="font-family:'Source Code Pro',monospace; font-size:0.72rem; letter-spacing:0.07em; text-transform:uppercase; color:rgba(250,250,248,0.55); text-decoration:none;">&larr; Back to course site</a>
+  </nav>
+  <div style="max-width:900px; margin:0 auto; padding:2.5rem 2rem 3rem;">
+    <div id="video-tag" style="font-family:'Source Code Pro',monospace; font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--red); border:1px solid var(--red); padding:0.12rem 0.5rem; border-radius:2px; display:inline-block; margin-bottom:0.8rem;"></div>
+    <h1 id="video-title" style="font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:600; color:var(--navy); line-height:1.25; margin-bottom:0.4rem;"></h1>
+    <p id="video-desc" style="font-size:0.95rem; color:var(--slate); margin-bottom:1.5rem;"></p>
+    <div style="position:relative; width:100%; padding-top:56.25%; background:#000; border-radius:4px; overflow:hidden; border:1px solid var(--rule);">
+      <iframe id="video-frame" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;"></iframe>
+    </div>
+    <p style="margin-top:1rem; font-size:0.82rem; color:var(--slate);">
+      Having trouble? &nbsp;<a id="video-fallback" href="#" target="_blank" rel="noopener" style="color:var(--red); text-decoration:none; border-bottom:1px solid rgba(155,35,53,0.3);">Open directly on YouTube &rarr;</a>
+    </p>
+  </div>
+  <footer style="background:var(--navy); color:rgba(250,250,248,0.32); text-align:center; padding:1.2rem 2rem; font-family:'Source Code Pro',monospace; font-size:0.68rem; letter-spacing:0.05em; border-top:2px solid var(--red);">
+    AQRM &nbsp;&middot;&nbsp; Advanced Quantitative Research Methods &nbsp;&middot;&nbsp; Leiden University College &nbsp;&middot;&nbsp; 2025&ndash;26
+  </footer>
+</div>
+
+<script>
+var videos = {
+  'wk1':  { tag:'Week 1',    title:'Regression & Categorical Variables',   desc:'Introductory lecture — watch before the first session',         id:'nlj-7qSGujY'  },
+  'wk23': { tag:'Weeks 2-3', title:'Introduction to Interaction Effects',  desc:'Short introductory video — watch this first before the lecture', id:'N8cdBB9w0wo'  },
+  'wk45': { tag:'Weeks 4-5', title:'Introduction to Time-Series Models',   desc:'Watch before attending the lecture session',                     id:'mGsaU2uMHG4'  },
+  'wk67': { tag:'Weeks 6-7', title:'Introduction to Choice Models',        desc:'Start with the video, then read the assigned chapter',           id:'vE5EoIjmjlU'  }
+};
+
+function openVideo(key) {
+  var v = videos[key];
+  document.getElementById('video-tag').textContent   = v.tag;
+  document.getElementById('video-title').textContent = v.title;
+  document.getElementById('video-desc').textContent  = v.desc;
+  document.getElementById('video-frame').src         = 'https://www.youtube.com/embed/' + v.id + '?rel=0&autoplay=1';
+  document.getElementById('video-fallback').href     = 'https://youtu.be/' + v.id;
+  document.getElementById('video-overlay').style.display = 'block';
+  document.getElementById('video-overlay').scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+}
+
+function closeVideo() {
+  document.getElementById('video-overlay').style.display = 'none';
+  document.getElementById('video-frame').src = '';
+  document.body.style.overflow = '';
+}
+
+function toggleWeek(id) {
+  var item = document.getElementById(id);
+  if (!item) return;
+  if (item.classList.contains('open')) {
+    item.classList.remove('open');
+  } else {
+    item.classList.add('open');
+  }
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeVideo();
+});
+</script>
+</body>
+</html>
